@@ -29,7 +29,7 @@ const HomePage: NextPage<Props> = ({ pokemons }) => {
 
 export const getStaticProps: GetStaticProps = async ( ctx ) => {
   const {data} = await pokeApi.get<PokemonListResponse>('/pokemon?limit=151')
-  console.log(data);
+  // console.log(data);
   // lo que hacemos aqui es mapear la data que nos devuelve la api para que tenga la forma que queremos
   const pokemons: SmallPokemon[] = data.results.map( (poke, index) => ({
     ...poke,
