@@ -6,7 +6,7 @@ import { GetStaticPaths, GetStaticProps, NextPage } from "next"
 import { useRouter } from "next/router"
 import { Sprites } from '../../interfaces/pokemon-full';
 import { useEffect, useState } from "react"
-import { localFavorites } from '@/utils';
+import { getPokemonInfo, localFavorites } from '@/utils';
 import confetti from "canvas-confetti"
 
 
@@ -37,7 +37,6 @@ const PokemonPage: NextPage<Props> = ( {pokemon} ) => {
             }
          })
     } 
-        
 
     return (
         <Layout title={pokemon.name}>
@@ -120,17 +119,9 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
     const { id } = params as { id: string }
-    const { data } = await pokeApi.get<Pokemon>(`/pokemon/${id}`)
-
-    const pokemon = {
-        id: data.id,
-        name: data.name,
-        sprites: data.sprites
-    }
-
     return {
         props: {
-            pokemon
+            pokemon: await getPokemonInfo(id)
         }
     }
 }

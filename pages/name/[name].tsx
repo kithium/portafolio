@@ -6,7 +6,7 @@ import { GetStaticPaths, GetStaticProps, NextPage } from "next"
 import { useRouter } from "next/router"
 import { Sprites } from '../../interfaces/pokemon-full';
 import { useEffect, useState } from "react"
-import { localFavorites } from '@/utils';
+import { getPokemonInfo, localFavorites } from '@/utils';
 import confetti from "canvas-confetti"
 
 
@@ -124,16 +124,10 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 // generamos un getStaticProps para que se genere la pagina de cada pokemon segun el nombre del pokemon
 export const getStaticProps: GetStaticProps = async ({params}) => {
     const { name } = params as { name: string }
-    const { data } = await pokeApi.get<Pokemon>(`/pokemon/${name}`)
-    // creamos un objeto para usar solo los campos que nos interesan
-    const pokemon = {
-        id: data.id,
-        name: data.name,
-        sprites: data.sprites
-    }
+    
     return {
         props: {
-            pokemon
+            pokemon: await getPokemonInfo(name)
         }
     }
 }
