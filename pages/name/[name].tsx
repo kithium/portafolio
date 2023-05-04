@@ -14,7 +14,9 @@ interface Props {
     pokemon: Pokemon
 }
 
-const PokemonPage: NextPage<Props> = ( {pokemon} ) => {
+const PokemonByNamePage : NextPage<Props> = ( {pokemon} ) => {
+    console.log({pokemon})
+
     // declaramos un useState para ver el estado de este pokemon en favoritos
     const [isInFavorite, setIsInFavorite] = useState(localFavorites.existInFavorites(pokemon.id))
 
@@ -109,25 +111,26 @@ const PokemonPage: NextPage<Props> = ( {pokemon} ) => {
 
     )
 }
-// generamos un getStaticPaths para que se genere la pagina de cada pokemon
+// generamos un getStaticPaths para que se genere la pagina de cada pokemon segun el nombre del pokemon
 export const getStaticPaths: GetStaticPaths = async (ctx) => {
-    const pokemons151 = [...Array(151)].map((value, index) => `${index + 1}`)
+    // debemos obtener los names de cada pokemon
+    const { data } = await pokeApi.get<PokemonListResponse>('/pokemon?limit=151')
+    const paths = data.results.map( ({ name }) => ({ params: { name: name } }))
     return {
-        paths: pokemons151.map( id => ({ params: { id } })),
+        paths,
         fallback: false
     }
 }
-
+// generamos un getStaticProps para que se genere la pagina de cada pokemon segun el nombre del pokemon
 export const getStaticProps: GetStaticProps = async ({params}) => {
-    const { id } = params as { id: string }
-    const { data } = await pokeApi.get<Pokemon>(`/pokemon/${id}`)
-
+    const { name } = params as { name: string }
+    const { data } = await pokeApi.get<Pokemon>(`/pokemon/${name}`)
+    // creamos un objeto para usar solo los campos que nos interesan
     const pokemon = {
         id: data.id,
         name: data.name,
         sprites: data.sprites
     }
-
     return {
         props: {
             pokemon
@@ -137,4 +140,4 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 
 
 
-export default PokemonPage
+export default PokemonByNamePage 

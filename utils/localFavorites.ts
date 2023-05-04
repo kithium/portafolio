@@ -15,7 +15,6 @@ const toggleFavorite = (id_pokemon: number) => {
 const existInFavorites = (id_pokemon: number):boolean => {
     // esta linea es para que no se rompa en el servidor
     if ( typeof window === 'undefined' ) {
-        console.log('no existe window');
         return false;
         
     }
