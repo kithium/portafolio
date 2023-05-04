@@ -7,6 +7,7 @@ import { useRouter } from "next/router"
 import { Sprites } from '../../interfaces/pokemon-full';
 import { useEffect, useState } from "react"
 import { localFavorites } from '@/utils';
+import confetti from "canvas-confetti"
 
 
 interface Props {
@@ -22,6 +23,19 @@ const PokemonPage: NextPage<Props> = ( {pokemon} ) => {
          // usaremos el localStorage para guardar los favoritos
          localFavorites.toggleFavorite(pokemon.id)
          setIsInFavorite(localFavorites.existInFavorites(pokemon.id))
+
+         // implementamos canvas confetti
+         if ( isInFavorite ) return;
+         confetti({
+            zIndex: 999,
+            particleCount: 100,
+            spread: 160,
+            angle: -100,
+            origin: {
+                x: 1,
+                y: 0
+            }
+         })
     } 
         
 
