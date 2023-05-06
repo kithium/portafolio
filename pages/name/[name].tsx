@@ -118,17 +118,29 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
     const paths = data.results.map( ({ name }) => ({ params: { name: name } }))
     return {
         paths,
-        fallback: false
+        fallback: 'blocking'
     }
 }
 // generamos un getStaticProps para que se genere la pagina de cada pokemon segun el nombre del pokemon
 export const getStaticProps: GetStaticProps = async ({params}) => {
     const { name } = params as { name: string }
+    // convertir el nombre a minusculas
     
+    const pokemon = await getPokemonInfo(name.toLowerCase())
+    
+    if ( !pokemon ) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false
+            }
+        }
+    }
     return {
         props: {
-            pokemon: await getPokemonInfo(name)
-        }
+            pokemon
+        },
+        revalidate: 86400 //60 * 60 * 24 // 24 horas
     }
 }
 
