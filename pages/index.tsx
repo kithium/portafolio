@@ -10,45 +10,38 @@ interface Props {
   pokemons: SmallPokemon[]
 }
 
-const HomePage: NextPage<Props> = ({ pokemons }) => {
+const HomePage: NextPage<Props> = ({ }) => {
   return (
     <>
       <Layout title="Listado de Pokemones">
-          {/* <Image 
-            src = '/img/banner.png'
-            alt = "banner"
-            width = { 200 }
-            height = { 150 }
-          /> */}
           <Grid.Container gap={2} justify="flex-start">
-            {
+            {/* {
               pokemons.map( (pokemon) => (
                 <PokemonCard key={pokemon.id} pokemon={pokemon} />
-              ) 
-              )
-            }
+              ))
+            } */}
           </Grid.Container>
       </Layout>
     </>
   )
 }
 
-export const getStaticProps: GetStaticProps = async ( ctx ) => {
-  const {data} = await pokeApi.get<PokemonListResponse>('/pokemon?limit=151')
-  // console.log(data);
-  // lo que hacemos aqui es mapear la data que nos devuelve la api para que tenga la forma que queremos
-  const pokemons: SmallPokemon[] = data.results.map( (poke, index) => ({
-    ...poke,
-    id: index + 1,
-    img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${index + 1}.svg`
-  }))
+// export const getStaticProps: GetStaticProps = async ( ctx ) => {
+//   const {data} = await pokeApi.get<PokemonListResponse>('/pokemon?limit=151')
+//   // console.log(data);
+//   // lo que hacemos aqui es mapear la data que nos devuelve la api para que tenga la forma que queremos
+//   const pokemons: SmallPokemon[] = data.results.map( (poke, index) => ({
+//     ...poke,
+//     id: index + 1,
+//     img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${index + 1}.svg`
+//   }))
   
-  return {
-    props: {
-      pokemons: pokemons
-    }
-  }
-}
+//   return {
+//     props: {
+//       pokemons: pokemons
+//     }
+//   }
+// }
 
 
 export default HomePage
