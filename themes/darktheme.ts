@@ -6,8 +6,8 @@ export const darkTheme = createTheme({
     colors: {} // override dark theme colors
   }
 });
-export const ligthTheme = createTheme({
-  type: 'ligth',
+export const lightTheme = createTheme({
+  type: 'light',
   theme: {
     colors: {} // override dark theme colors
   }
