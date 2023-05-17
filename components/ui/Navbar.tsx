@@ -1,15 +1,16 @@
 import { Navbar, Link, Text, Avatar, Dropdown } from "@nextui-org/react";
 import { AcmeLogo } from "./AcmeLogo.js";
 import { useEffect, useState } from "react";
-// nte . cambio de tema.
+
+// cambio de tema.
 import { useTheme as useNextTheme } from 'next-themes'
 import { Switch, useTheme } from '@nextui-org/react'
-// nte . cambio de tema.
+
 export const NavbarPortafolio = () => {
-    // nte . theme
+    //cambio de tema
     const { setTheme } = useNextTheme();
     const { isDark, type } = useTheme();
-    // nte . theme
+    // para evitar renderizaso en server
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
